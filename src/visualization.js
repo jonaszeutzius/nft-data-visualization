@@ -17,10 +17,10 @@ export function Visualization() {
     setnfts(null)
     setCollection(null)
     setLoading(true)
-    const url = `http://localhost:8080/v1/nfts/contract/${contractAddress}?chain=${blockchain}&page_size=25`;
+    const url = `https://api.blockspan.com/v1/nfts/contract/${contractAddress}?chain=${blockchain}&page_size=25`;
     const headers = {
       accept: 'application/json',
-      'X-API-KEY': '2jhzbqIWanB8puiqySBIWJVf6Ovp7oPW',
+      'X-API-KEY': 'YOUR_BLOCKSPAN_API_KEY',
     };
 
     try {
@@ -78,6 +78,25 @@ export function Visualization() {
     };
   }
 
+  let nameData = null
+  if (nfts) {
+    nameData = {
+      labels: ['Named', 'Unnamed'],
+      datasets: [
+        {
+          label: 'Contains a name?',
+          data: [
+            nfts.filter(nft => nft.token_name !== null).length,
+            nfts.filter(nft => nft.token_name === null).length,
+          ],
+          backgroundColor: ['rgba(0, 128, 0, 0.2)', 'rgba(255, 99, 132, 0.2)'],
+          borderColor: ['rgba(0, 128, 0, 1)','rgba(255, 99, 132, 1)'],
+          borderWidth: 1
+        }
+      ]
+    };
+  }
+
   const handleBlockchainChange = event => {
     setBlockchain(event.target.value);
   };
@@ -122,6 +141,7 @@ export function Visualization() {
             <thead>
               <th>Token Type</th>
               <th>NFT Contains Valid Image?</th>
+              <th>NFT Contains Name?</th>
             </thead>
             <tbody>
               <tr>
@@ -133,6 +153,11 @@ export function Visualization() {
                 <td>
                   <div className="chartContainer">
                     <Pie data={photoData} />
+                  </div>
+                </td>
+                <td>
+                  <div className="chartContainer">
+                    <Pie data={nameData} />
                   </div>
                 </td>
               </tr>
