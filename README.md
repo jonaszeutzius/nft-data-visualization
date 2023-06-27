@@ -28,9 +28,9 @@ We'll be using Axios to send HTTP requests to the Blockspan API. Install it with
 
 `npm install axios`
 
-To create graphs, we will use the chart.js library. Install it with the following command:
+To create graphs, we will use the chart.js and react-chartjs-2 libraries. Install them with the following command:
 
-`npm install chart.js`
+`npm install react-chartjs-2 chart.js`
 
 
 ## STEP 3: CREATE YOUR REACT COMPONENT
@@ -65,8 +65,6 @@ export function Visualization() {
 
     try {
       const response = await axios.get(url, { headers });
-      console.log('collection', response)
-      console.log('nft array', response.data.results)
       setCollection(response)
       setnfts(response.data.results)
       setError(null);

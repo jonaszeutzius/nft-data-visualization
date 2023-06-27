@@ -25,8 +25,6 @@ export function Visualization() {
 
     try {
       const response = await axios.get(url, { headers });
-      console.log('collection', response)
-      console.log('nft array', response.data.results)
       setCollection(response)
       setnfts(response.data.results)
       setError(null);
